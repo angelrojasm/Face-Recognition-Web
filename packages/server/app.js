@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 3001;
-const sampleModel = require('./mongoose/sampleModel');
+require('express-fileupload')
+const rekognition = require('./aws/controller/rekognition')
 
 app.use(express.json());
 app.use(cors());
@@ -14,12 +15,15 @@ app.listen(process.env.PORT || port, () => {
 	console.log('app is running on port ' + port);
 });
 
-app.get('/hello', function (req, res) {
-	res.send('hello from Express!');
+app.post('/create-collection', async function (req, res) {
+	res.send(await rekognition.createCollection())
 });
 
-app.get('/get-all', async function (req, res) {
-	res.send(await sampleModel.find());
+app.post('/find-face', async function (req, res) {
+	res.send(await rekognition.findFaces(req.files.face));
 });
 
+app.post('/add-face', async function(req,res) {
+	res.send(await rekognition.AddFace(req.files.face, req.body.name))
+})
 module.exports = app;
