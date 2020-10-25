@@ -1,0 +1,23 @@
+{
+	"name": "mern-project-boilerplate",
+	"version": "1.0.0",
+	"main": "index.js",
+	"repository": "https://github.com/angelrojasm/MERN-Project-Boilerplate.git",
+	"author": "angelrojasm <angelrojasm6@gmail.com>",
+	"license": "MIT",
+	"private": "true",
+	"workspaces": [
+		"packages/*"
+	],
+	"devDependencies": {
+		"concurrently": "^5.2.0"
+	},
+	"scripts": {
+		"dev:client": "yarn workspace @mern-project-boilerplate/client start",
+		"build:client": "yarn workspace @mern-project-boilerplate/client build",
+		"dev:server": "yarn workspace @mern-project-boilerplate/server dev",
+		"start:server": "yarn workspace @mern-project-boilerplate/server start",
+		"dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+		"start": "yarn build:client && yarn start:server"
+	}
+}
