@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import AddFaceForm from './components/AddFaceForm';
+import FindFaceForm from './components/FindFaceForm'
 import './App.css';
 
 function App() {
-	const [message, setMessage] = useState(null);
+    const [message, setMessage] = useState(null);
 
-	async function getHelloMessage() {
-		let message = await fetch('/hello');
-		let result = await message.text();
-		setMessage(result);
-	}
+    async function getHelloMessage() {
+        let message = await fetch('/hello');
+        let result = await message.text();
+        setMessage(result);
+    }
 
-	useEffect(() => {
-		getHelloMessage();
-	}, []);
+    useEffect(() => {
+        // getHelloMessage();
+    }, []);
 
-	return <>{message === null ? 'Loading...' : message}</>;
+    return (
+        <>
+            <AddFaceForm />
+			<hr/>
+			<FindFaceForm/>
+        </>
+    );
 }
 
 export default App;
