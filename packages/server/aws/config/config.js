@@ -1,7 +1,7 @@
-(accessKeyID = 'AKIAT245WJKZFLLK3AJ7'),
-	(secretKey = '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'),
-	(bucket = 'missing-people'),
-	(region = 'us-east-1');
+(accessKeyID = process.env.AWS_ACCESS_KEY),
+	(secretKey = process.env.AWS_SECRET_KEY),
+	(bucket = process.env.AWS_BUCKET),
+	(region = process.env.AWS_REGION);
 
 module.exports = {
 	accessKeyID,
