@@ -7,15 +7,16 @@ const AddFaceForm = () => {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const res = await fetch('/find-face', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(form)
-        })
+        const formData = new FormData();
+        formData.append('face', form.face);
+        formData.append('name', form.name.replace(/ /g, '_'));
 
-        alert("Submitted")
+        const res = await fetch('/add-face', {
+            method: 'POST',
+            body: formData,
+        });
+
+        alert('Submitted');
     }
 
     return (
