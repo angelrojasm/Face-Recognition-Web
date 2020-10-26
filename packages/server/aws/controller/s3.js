@@ -33,18 +33,21 @@ exports.uploadFile = (file, fileName) => {
 		);
 	});
 };
-exports.getFile = (fileName, res) => {
-	s3.getObject(
-		{
-			Bucket: s3Bucket,
-			Key: fileName,
-		},
-		(err, data) => {
-			if (err) {
-				res.send('No such file name found.');
-			} else {
-				res.send(data.Body);
-			}
-		}
-	);
+
+exports.getFile = (fileName) => {
+    return new Promise((resolve, reject) => {
+    s3.getObject(
+        {
+            Bucket: s3Bucket,
+            Key: fileName,
+        },
+        (err, data) => {
+            if (err) {
+                return reject('No such file name found.');
+            } else {
+                return resolve(data.Body);
+            }
+        }
+    );
+})
 };

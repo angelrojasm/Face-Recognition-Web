@@ -1,11 +1,13 @@
 const aws = require('aws-sdk')
-const rekognition = aws.Rekognition();
+const config = require('../config/config')
 aws.config.setPromisesDependency();
 aws.config.update({
 	region: config.region,
 	accessKeyId: config.accessKeyID,
 	secretAccessKey: config.secretKey,
 });
+const rekognition = new aws.Rekognition();
+
 
 exports.createCollection = () => {
     /* This operation creates a Rekognition collection for storing image data. */
@@ -31,15 +33,14 @@ exports.AddFace = (imageString,faceName) => {
     var params = {
         CollectionId: 'MissingPeople', /* required */
         Image: { /* required */
-          Bytes: imageString /* Strings will be Base-64 encoded on your behalf */,
+          Bytes: Buffer.from(imageString) /* Strings will be Base-64 encoded on your behalf */,
         },
         DetectionAttributes: [
-          DEFAULT,
+          
           /* more items */
         ],
         ExternalImageId: faceName,
-        MaxFaces: '3',
-        QualityFilter: AUTO
+        MaxFaces: 3
       };
       rekognition.indexFaces(params, function(err, data) {
         if (err) return reject(err) // an error occurred
@@ -53,11 +54,10 @@ exports.findFaces = (imageString) => {
     var params = {
         CollectionId: 'MissingPeople', /* required */
         Image: { /* required */
-          Bytes: imageString /* Strings will be Base-64 encoded on your behalf */,
+          Bytes: Buffer.from(imageString) /* Strings will be Base-64 encoded on your behalf */,
         },
-        FaceMatchThreshold: 80,
+        FaceMatchThreshold: 95,
         MaxFaces: 3,
-        QualityFilter: AUTO
       };
       rekognition.searchFacesByImage(params, function(err, data) {
         if (err) return reject(err); // an error occurred
